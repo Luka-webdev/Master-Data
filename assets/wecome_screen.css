@@ -1,4 +1,31 @@
-.imie {
-  color: red;
-  background-color: aqua;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+#main_wrapper {
+  background-color: #555;
+  height: 100vh;
+}
+.title {
+  font-size: 7vw;
+}
+.btn {
+  font-size: 4vw;
+}
+#load_data {
+  background-color: darkolivegreen;
+}
+#new_tab {
+  background-color: darkslategray;
+}
+.file_data,
+.create_data {
+  height: 100vh;
+}
+.file_data {
+  background-color: chocolate;
+}
+.create_data {
+  background-color: cornflowerblue;
 }
