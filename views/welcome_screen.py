@@ -2,6 +2,9 @@ from main import app
 from dash import Dash, html, dcc
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
+from views.create_new_tab import *
+
+app.config.suppress_callback_exceptions = True
 
 
 def make_layout():
@@ -35,5 +38,5 @@ def start_project(path):
         ], className='container-fluid w-100 file_data')
     elif path == '/new_tab':
         return html.Div([
-
+            new_tab()
         ], className='container-fluid w-100 create_data')
