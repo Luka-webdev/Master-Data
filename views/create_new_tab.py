@@ -4,6 +4,7 @@ from dash import Dash, html, dcc
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import pandas as pd
+from views.menu import *
 
 columns_name = []
 tab = pd.DataFrame()
@@ -23,14 +24,13 @@ def new_tab():
                     dbc.InputGroup([dbc.InputGroupText('Ile kolumn ma mieć tabela'),
                                     dcc.Input(type='number', id='num_cols', style={
                                               'width': '50px', 'font-size': '20px', 'padding': '10px'}),
-                                    dbc.Button('Utwórz pola do wpisania nazw kolumn', id='create_headers',
-                                               className='btn btn-success', style={'font-size': '20px'}),
                                     ], size='lg'),
-                    ], id='insert_cols', style={'margin': '20px'}),
+                     dbc.Button('Utwórz pola do wpisania nazw kolumn', id='create_headers',
+                                className='btn btn-success', style={'font-size': '20px'}),
+                     ], id='insert_cols', style={'margin': '20px'}),
         html.Section(id='name_cols'),
         html.Section(id='add_rows'),
-        html.Section(id='table_header'),
-        html.Section(id='table_content')
+        offcanvas
     ])
 
 

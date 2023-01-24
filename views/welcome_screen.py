@@ -4,6 +4,7 @@ from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 from views.create_new_tab import *
 
+
 app.config.suppress_callback_exceptions = True
 
 
@@ -38,5 +39,8 @@ def start_project(path):
         ], className='container-fluid w-100 file_data')
     elif path == '/new_tab':
         return html.Div([
-            new_tab()
-        ], className='container-fluid w-100 create_data')
+            html.Section([
+                new_tab()
+            ], id='insert_data', className="col-3 bg-dark h-100 p-3"),
+            html.Section(id='result_area', className='col-9 bg-info h-100')
+        ], className='row mx-0 create_data')
