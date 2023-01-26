@@ -4,7 +4,7 @@ from dash import Dash, html, dcc
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import pandas as pd
-from views.menu import *
+from views.main_menu import *
 
 columns_name = []
 tab = pd.DataFrame()

@@ -1,0 +1,7 @@
+.offcanvas-header {
+  display: none;
+}
+.card-body .btn {
+  font-size: 16px;
+  padding: 3px;
+}
