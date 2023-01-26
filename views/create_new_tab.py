@@ -5,17 +5,7 @@ from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import pandas as pd
 from views.main_menu import *
-
-columns_name = []
-tab = pd.DataFrame()
-new_values = []
-
-
-def inputs(val1, val2, key):
-    if key == 'first':
-        return html.Div([dcc.Input(type='text', id=str(col), style={'font-size': '20px', 'width': '200px', 'padding': '3px'}) for col in range(val1)], id=val2)
-    elif key == 'second':
-        return html.Div([dcc.Input(type='text', placeholder=columns_name[col], id=str(col), style={'font-size': '20px', 'width': '200px', 'padding': '3px'}) for col in range(val1)], id=val2)
+from views.functions_variables import *
 
 
 def new_tab():
@@ -48,3 +38,30 @@ def create_columns(value, btn):
                 html.Button('Utwórz tabelę', id='create_tab', style={
                             'font-size': '20px', 'margin-top': '10px'}),
             ])
+
+
+@app.callback(
+    [Output('table_header', 'children'),
+     Output('insert_cols', 'style'),
+     Output('name_cols', 'style'),
+     Output('add_rows', 'children')],
+    [Input('create_tab', 'n_clicks')],
+    [Input('input_wrap', 'children')],
+
+)
+def create_table(btn, children):
+    btn = dash.callback_context.triggered
+    if btn[0]['prop_id'].split('.')[0] == 'create_tab':
+        for child in children:
+            columns_name.append(child['props']['value'])
+        return [
+            add_table(),
+            {'display': 'none'},
+            {'display': 'none'},
+            html.Div([
+                html.H3('Wprowadź dane do tabeli', className='text-primary'),
+                inputs(len(columns_name), "new_data", "second"),
+                html.Button('Zatwierdź', id='add_data',
+                            style={'font-size': '20px'})
+            ], style={'margin-bottom': '10px'})
+        ]
