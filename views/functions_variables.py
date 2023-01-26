@@ -4,17 +4,18 @@ from dash import Dash, html, dcc, dash_table
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import pandas as pd
+from views.create_new_tab import *
 
+new_values = []
 columns_name = []
 tab = pd.DataFrame()
-new_values = []
 
 
 def inputs(val1, val2, key):
     if key == 'first':
-        return html.Div([dcc.Input(type='text', id=str(col), style={'font-size': '20px', 'width': '200px', 'padding': '3px'}) for col in range(val1)], id=val2)
+        return html.Div([dcc.Input(type='text', id=str(col)) for col in range(val1)], id=val2)
     elif key == 'second':
-        return html.Div([dcc.Input(type='text', placeholder=columns_name[col], id=str(col), style={'font-size': '20px', 'width': '200px', 'padding': '3px'}) for col in range(val1)], id=val2)
+        return html.Div([dcc.Input(type='text', placeholder=columns_name[col], id=str(col)) for col in range(val1)], id=val2)
 
 
 def add_table():

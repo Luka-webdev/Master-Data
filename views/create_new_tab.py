@@ -1,11 +1,12 @@
 from main import app
 import dash
-from dash import Dash, html, dcc
+from dash import Dash, html, dcc, dash_table
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import pandas as pd
 from views.main_menu import *
 from views.functions_variables import *
+from views.filling_table import *
 
 
 def new_tab():
@@ -35,8 +36,7 @@ def create_columns(value, btn):
         if btn[0]['prop_id'].split('.')[0] == 'create_headers':
             return html.Div([
                 inputs(value, 'input_wrap', 'first'),
-                html.Button('Utwórz tabelę', id='create_tab', style={
-                            'font-size': '20px', 'margin-top': '10px'}),
+                html.Button('Utwórz tabelę', id='create_tab'),
             ])
 
 
@@ -58,10 +58,5 @@ def create_table(btn, children):
             add_table(),
             {'display': 'none'},
             {'display': 'none'},
-            html.Div([
-                html.H3('Wprowadź dane do tabeli', className='text-primary'),
-                inputs(len(columns_name), "new_data", "second"),
-                html.Button('Zatwierdź', id='add_data',
-                            style={'font-size': '20px'})
-            ], style={'margin-bottom': '10px'})
+            filling_data()
         ]
