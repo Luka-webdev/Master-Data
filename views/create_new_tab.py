@@ -21,7 +21,6 @@ def new_tab():
                      ], id='insert_cols', style={'margin': '20px'}),
         html.Section(id='name_cols'),
         html.Section(id='add_rows'),
-        offcanvas
     ])
 
 

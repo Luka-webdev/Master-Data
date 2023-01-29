@@ -3,7 +3,7 @@ from dash import Dash, html, dcc
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 from views.create_new_tab import *
-
+from views.main_menu import *
 
 app.config.suppress_callback_exceptions = True
 
@@ -22,14 +22,14 @@ def make_layout():
                                className='btn col-12')
                 ], className='w-50 h-50'),
             ], id='welcome_screen', className='position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center'),
-            html.Div(id='wrap-project',
-                     className='position-absolute top-0 start-0 w-100')
+            html.Div(id='wrap_project',
+                     className='position-absolute top-0 start-0 w-100'),
         ], id='main_wrapper', className='position-relative container-fluid')
     ])
 
 
 @app.callback(
-    Output('wrap-project', 'children'),
+    Output('wrap_project', 'children'),
     [Input('url', 'pathname')]
 )
 def start_project(path):
@@ -38,12 +38,27 @@ def start_project(path):
 
         ], className='container-fluid w-100 file_data')
     elif path == '/new_tab':
-        return html.Div([
-            html.Section([
-                new_tab()
-            ], id='insert_data', className="col-3 bg-dark h-100 p-3"),
-            html.Section([
-                html.Div(id='table_header'),
-                html.Div(id='table_content'),
-            ], id='result_area', className='col-9 bg-info h-100 p-3')
-        ], className='row mx-0 create_data')
+        return dcc.Tabs([
+            dcc.Tab(
+                        label='Wprowadzanie danych',
+                        children=[
+                            html.Div([
+                                html.Section([
+                                    new_tab()
+                                ], id='insert_data', className="col-3 bg-dark h-100 p-3"),
+                                html.Section([
+                                    html.Div(id='table_header'),
+                                    html.Div(id='table_content'),
+                                ], id='result_area', className='col-9 bg-info h-100 p-3')
+                            ], className='row mx-0 create_data')
+                        ]
+                        ),
+            dcc.Tab(
+                label='Analiza danych',
+                children=[
+                    html.Div([
+                        main_menu_content
+                    ], id='data_analysis')
+                ]
+            )
+        ])
