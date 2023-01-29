@@ -3,7 +3,9 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import Input, Output, State, html
 from views.table_analysis import *
-from views.welcome_screen import *
+from views.analysis_selected_column import *
+from views.find_rows import *
+from views.create_chart import *
 
 offcanvas = html.Div(
     [
@@ -87,6 +89,7 @@ offcanvas = html.Div(
     ], className='main_menu'
 )
 
+
 @app.callback(
     Output("offcanvas", "is_open"),
     Input("open-offcanvas", "n_clicks"),
@@ -97,12 +100,14 @@ def toggle_offcanvas(n1, is_open):
         return not is_open
     return is_open
 
-main_menu_content=html.Div([
-	offcanvas,
-	html.Section([
-	
-	],id='content')
+
+main_menu_content = html.Div([
+    offcanvas,
+    html.Section([
+
+    ], id='content')
 ])
+
 
 @app.callback(
     Output('content', 'children'),
@@ -111,17 +116,16 @@ main_menu_content=html.Div([
     [Input('find_rows', 'n_clicks')],
     [Input('create_chart', 'n_clicks')]
 )
-
 def choice_option(btn1, btn2, btn3, btn4):
-	btn1 = dash.callback_context.triggered
-	btn2 = dash.callback_context.triggered
-	btn3 = dash.callback_context.triggered
-	btn4 = dash.callback_context.triggered
-	if btn1[0]['prop_id'].split(".")[0] == 'table_analysis':
-		return table_analysis()
-	elif btn2[0]['prop_id'].split(".")[0] == 'analysis_selected_column':
-		return
-	elif btn3[0]['prop_id'].split(".")[0] == 'find_rows':
-		return
-	elif btn4[0]['prop_id'].split(".")[0] == 'create_chart':
-		return
+    btn1 = dash.callback_context.triggered
+    btn2 = dash.callback_context.triggered
+    btn3 = dash.callback_context.triggered
+    btn4 = dash.callback_context.triggered
+    if btn1[0]['prop_id'].split(".")[0] == 'table_analysis':
+        return table_analysis()
+    elif btn2[0]['prop_id'].split(".")[0] == 'analysis_selected_column':
+        return analysis_selected_column()
+    elif btn3[0]['prop_id'].split(".")[0] == 'find_rows':
+        return find_rows()
+    elif btn4[0]['prop_id'].split(".")[0] == 'create_chart':
+        return create_chart()
