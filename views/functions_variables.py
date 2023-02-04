@@ -9,6 +9,7 @@ from views.create_new_tab import *
 new_values = []
 columns_name = []
 tab = pd.DataFrame()
+columns_types={'Liczba całkowita':'int64','Liczba zmiennoprzecinkowa':'float64','Kategoria':'category','Tekst':'object','Data':'datetime64'}
 
 
 def inputs(val1, val2, key):
@@ -21,6 +22,7 @@ def inputs(val1, val2, key):
 def add_table():
     return html.Div([
         dash_table.DataTable(
+        	id='source_data',
             data=tab.to_dict('records'),
             columns=[{'id': i, "name": i} for i in columns_name],
             style_cell={'font-size': '20px', 'width': '210px'},

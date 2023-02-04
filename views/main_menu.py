@@ -2,7 +2,6 @@ from main import app
 import dash
 import dash_bootstrap_components as dbc
 from dash import Input, Output, State, html
-from views.table_analysis import *
 from views.analysis_selected_column import *
 from views.find_rows import *
 from views.create_chart import *
@@ -12,23 +11,6 @@ offcanvas = html.Div(
         dbc.Button("Options", id="open-offcanvas", n_clicks=0),
         dbc.Offcanvas(
             html.Div([
-                dbc.Card(
-                    dbc.CardBody(
-                        [
-                            html.H5("Analiza tabeli", className="card-title"),
-                            html.Hr(),
-                            html.Div([
-                                html.P(
-                                    "Poznaj podstawowe informacje o swojej tabeli.",
-                                    className="card-text col-9",
-                                ),
-                                dbc.Button(
-                                    "Dalej", id='table_analysis', color="success", className="col-3"
-                                ),
-                            ], className='row')
-                        ]
-                    ), className='col-3'
-                ),
                 dbc.Card(
                     dbc.CardBody(
                         [
@@ -111,21 +93,17 @@ main_menu_content = html.Div([
 
 @app.callback(
     Output('content', 'children'),
-    [Input('table_analysis', 'n_clicks')],
     [Input('analysis_selected_column', 'n_clicks')],
     [Input('find_rows', 'n_clicks')],
     [Input('create_chart', 'n_clicks')]
 )
-def choice_option(btn1, btn2, btn3, btn4):
+def choice_option(btn1, btn2, btn3):
     btn1 = dash.callback_context.triggered
     btn2 = dash.callback_context.triggered
     btn3 = dash.callback_context.triggered
-    btn4 = dash.callback_context.triggered
-    if btn1[0]['prop_id'].split(".")[0] == 'table_analysis':
-        return table_analysis()
-    elif btn2[0]['prop_id'].split(".")[0] == 'analysis_selected_column':
+    if btn1[0]['prop_id'].split(".")[0] == 'analysis_selected_column':
         return analysis_selected_column()
-    elif btn3[0]['prop_id'].split(".")[0] == 'find_rows':
+    elif btn2[0]['prop_id'].split(".")[0] == 'find_rows':
         return find_rows()
-    elif btn4[0]['prop_id'].split(".")[0] == 'create_chart':
+    elif btn3[0]['prop_id'].split(".")[0] == 'create_chart':
         return create_chart()
