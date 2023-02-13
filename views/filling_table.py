@@ -11,6 +11,7 @@ from views.functions_variables import *
 def add_table():
     return html.Div([
         dash_table.DataTable(
+        	id='source_data',
             data=tab.to_dict('records'),
             columns=[{'id': i, "name": i} for i in columns_name],
             style_cell={'font-size': '20px', 'width': '210px'},
