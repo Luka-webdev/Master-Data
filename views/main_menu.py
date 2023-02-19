@@ -8,7 +8,8 @@ from views.create_chart import *
 
 offcanvas = html.Div(
     [
-        dbc.Button("Options", id="open-offcanvas", n_clicks=0),
+        dbc.Button("Options", id="open-offcanvas",
+                   n_clicks=0, className='position-fixed bottom-0 start-0" fs-4'),
         dbc.Offcanvas(
             html.Div([
                 dbc.Card(

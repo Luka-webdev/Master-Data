@@ -1,0 +1,7 @@
+.charts_wrapper {
+  height: 100vh;
+  margin: 0;
+}
+#type_charts {
+  background-color: chocolate;
+}
