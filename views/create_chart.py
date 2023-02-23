@@ -6,6 +6,7 @@ from dash import Input, Output, State, html, dcc
 import plotly.express as px
 from views.functions_variables import *
 
+
 # Zawartość strony do wstawiania wykresów
 
 
@@ -27,7 +28,31 @@ def show(rows):
                     dbc.CardImg(
                         src="/assets/images_charts/punktowy.png", top=True),
                     dbc.Button("Wykres punktowy",
-                               color="primary", className='fs-6', id='open-offcanvas-placement'),
+                               color="primary", className='fs-6', id='scatter'),
+                ], className='w-75'
+            ),
+            dbc.Card(
+                [
+                    dbc.CardImg(
+                        src="/assets/images_charts/liniowy.png", top=True),
+                    dbc.Button("Wykres liniowy",
+                               color="primary", className='fs-6', id='line'),
+                ], className='w-75'
+            ),
+            dbc.Card(
+                [
+                    dbc.CardImg(
+                        src="/assets/images_charts/powierzchniowy.png", top=True),
+                    dbc.Button("Wykres powierzchniowy",
+                               color="primary", className='fs-6', id='area'),
+                ], className='w-75'
+            ),
+            dbc.Card(
+                [
+                    dbc.CardImg(
+                        src="/assets/images_charts/słupkowy.png", top=True),
+                    dbc.Button("Wykres słupkowy",
+                               color="primary", className='fs-6', id='bar'),
                 ], className='w-75'
             )
         ], id='type_charts', className='col-2 h-100'),
@@ -39,39 +64,50 @@ def show(rows):
         ], id='chart_view', className='col-10 h-100 bg-info')
     ]
 
-# Wybór koloru punktu na wykresie
 
+# Wybór koloru elementu na wykresie
 
-marker_color = html.Div(
-    [
-        dbc.Label(["Wybierz kolor punktu", html.Span(id="marker_color")]),
-        dbc.Input(
-            type="color",
-            id="color_marker",
-            value="#000000",
-            style={"width": 75, "height": 50},
-        ),
-    ]
-)
+def item_color(target):
+    return html.Div(
+        [
+            dbc.Label([f"Wybierz kolor {target}", html.Span(id="item_color")]),
+            dbc.Input(
+                type="color",
+                id="color_item",
+                value="#000000",
+                style={"width": 75, "height": 50},
+            ),
+        ]
+    )
 
 
 @app.callback(
-    Output("marker_color", "style"),
-    Input("color_marker", "value"),
+    Output("item_color", "style"),
+    Input("color_item", "value"),
 )
-def update_color_marker(color):
+def update_color_item(color):
     return {"color": color}
 
-# Wybór rozmiaru punktu
+# Wybór rozmiaru elementu wykresu
 
 
-def marker_size():
-    return html.Div([
-        dbc.Label('Ustaw rozmiar punktów'),
-        dcc.Slider(10, 70, 10, id='size_marker')
-    ])
+def size(type):
+    if type == 'scatter':
+        return html.Div([
+            dbc.Label('Ustaw rozmiar punktów'),
+            dcc.Slider(10, 70, 10, id='size')
+        ])
+    elif type == 'line':
+        return html.Div([
+            dbc.Label('Ustaw rozmiar linii'),
+            dcc.Slider(1, 5, 1, id='size')
+        ])
+    elif type == 'area':
+        return html.Div(id='size')
+    elif type == 'bar':
+        return html.Div(id='size')
 
-# Wybór kolou tła wykresu
+# Wybór koloru tła wykresu
 
 
 bg_color = html.Div(
@@ -122,9 +158,8 @@ def chart_options(tabela):
                             dbc.Input(type='text', id='title'),
                         ]
                     ),
+                    html.Div(id='specific_options'),
                     bg_color,
-                    marker_color,
-                    marker_size(),
                     dbc.Card([
                         html.P('Opcja dodatkowa', id='tooltip_target', style={
                             'textDecoration': 'underline', 'cursor': 'pointer'}),
@@ -137,7 +172,7 @@ def chart_options(tabela):
                             'Jeżeli w twoich danych jest kolumna z kategoriami tzn. zawiera wartości z niewielkiego zbioru to możesz wyróżnić punkty 				 						odpowiadające każdej z nich.', target='tooltip_target'
                         )
                     ]),
-                    dbc.Button('Insert chart', id='insert_chart')
+                    dbc.Button(id='insert_chart')
                 ]),
                 id="offcanvas-placement",
                 is_open=False,
@@ -150,13 +185,28 @@ def chart_options(tabela):
 
 
 @app.callback(
-    Output("offcanvas-placement", "is_open"),
-    Input("open-offcanvas-placement", "n_clicks"),
+    [Output("offcanvas-placement", "is_open"),
+     Output('specific_options', 'children'),
+     Output('insert_chart', 'children')],
+    Input("scatter", "n_clicks"),
+    Input("line", "n_clicks"),
+    Input("area", "n_clicks"),
+    Input("bar", "n_clicks"),
     [State("offcanvas-placement", "is_open")],
 )
-def toggle_offcanvas(n1, is_open):
-    if n1:
-        return not is_open
+def toggle_offcanvas(n1, n2, n3, n4, is_open):
+    n1 = dash.callback_context.triggered[0]['prop_id'].split('.')[0]
+    n2 = dash.callback_context.triggered[0]['prop_id'].split('.')[0]
+    n3 = dash.callback_context.triggered[0]['prop_id'].split('.')[0]
+    n4 = dash.callback_context.triggered[0]['prop_id'].split('.')[0]
+    if n1 == 'scatter':
+        return not is_open, [item_color('punktu'), size('scatter')], 'Wstaw wykres punktowy'
+    elif n2 == 'line':
+        return not is_open, [item_color('linii'), size('line')], 'Wstaw wykres liniowy'
+    elif n3 == 'area':
+        return not is_open, [item_color('powierzchni'), size('area')], 'Wstaw wykres powierzchniowy'
+    elif n4 == 'bar':
+        return not is_open, [item_color('słupka'), size('bar')], 'Wstaw wykres słupkowy'
     return is_open
 
 
@@ -166,28 +216,46 @@ def toggle_offcanvas(n1, is_open):
 @app.callback(
     Output('chart', 'children'),
     Input('insert_chart', 'n_clicks'),
+    Input('insert_chart', 'children'),
     Input('axis_X', 'value'),
     Input('axis_Y', 'value'),
     Input('title', 'value'),
     Input("color_bg", "value"),
-    Input("color_marker", "value"),
-    Input("size_marker", "value"),
+    Input("color_item", "value"),
+    Input("size", "value"),
     Input("category", "value"),
     Input('source_data', 'data')
 )
-def insert_charts(btn, val1, val2, val3, val4, val5, val6, val7, rows):
+def insert_charts(btn, child, aX, aY, t, cb, ci, s, c, rows):
     tab_data = pd.DataFrame(rows)
     btn = dash.callback_context.triggered
-    fig = px.scatter(tab_data, x=val1, y=val2, title=val3, color=val7)
-    fig.update_layout({
-        'plot_bgcolor': val4,
-    })
-    fig.update_traces({'marker_size': val6})
-    if val7 == None:
-        fig.update_traces({'marker_size': val6, 'marker_color': val5})
+    if "punktowy" in child:
+        fig = px.scatter(tab_data, x=aX, y=aY, title=t, color=c)
+        fig.update_layout({
+            'plot_bgcolor': cb,
+        })
+        fig.update_traces({'marker_size': s})
+        if c == None:
+            fig.update_traces({'marker_size': s, 'marker_color': ci})
+    elif "liniowy" in child:
+        fig = px.line(tab_data, x=aX, y=aY, title=t, color=c)
+        fig.update_layout({
+            'plot_bgcolor': cb,
+
+        })
+    elif "powierzchniowy" in child:
+        fig = px.area(tab_data, x=aX, y=aY, title=t, color=c)
+        fig.update_layout({
+            'plot_bgcolor': cb,
+        })
+    elif "słupkowy" in child:
+        fig = px.bar(tab_data, x=aX, y=aY, title=t, color=c)
+        fig.update_layout({
+            'plot_bgcolor': cb,
+        })
     if btn[0]['prop_id'].split('.')[0] == 'insert_chart':
         return html.Div([
             dcc.Graph(
-                figure=fig
-            )
+                        figure=fig
+                        )
         ])
