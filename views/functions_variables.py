@@ -33,5 +33,15 @@ def add_table():
         ),
     ])
 
-
-
+def type_recognize(axis,first_value):
+	if first_value.isalpha():
+		axis=axis.astype('category')
+		return axis
+	else:
+		if '.'  in first_value or ',' in first_value:
+			axis=axis.apply(lambda x: x.replace(',','.'))
+			axis=axis.astype('float64')
+			return axis
+		else:
+			axis=axis.astype('int64')
+			return axis

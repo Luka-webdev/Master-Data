@@ -100,7 +100,7 @@ def size(type):
     elif type == 'line':
         return html.Div([
             dbc.Label('Ustaw rozmiar linii'),
-            dcc.Slider(1, 5, 1, id='size')
+            dcc.Slider(1, 7, 1, id='size')
         ])
     elif type == 'area':
         return html.Div(id='size')
@@ -227,35 +227,42 @@ def toggle_offcanvas(n1, n2, n3, n4, is_open):
     Input('source_data', 'data')
 )
 def insert_charts(btn, child, aX, aY, t, cb, ci, s, c, rows):
-    tab_data = pd.DataFrame(rows)
-    btn = dash.callback_context.triggered
-    if "punktowy" in child:
-        fig = px.scatter(tab_data, x=aX, y=aY, title=t, color=c)
-        fig.update_layout({
+	tab_data = pd.DataFrame(rows)
+	tab_data[aX]=type_recognize(tab_data[aX],tab_data[aX][0])
+	tab_data[aY]=type_recognize(tab_data[aY],tab_data[aY][0])
+	btn = dash.callback_context.triggered
+	if "punktowy" in child:
+		fig = px.scatter(tab_data, x=aX, y=aY, title=t, color=c)
+		fig.update_layout({
             'plot_bgcolor': cb,
         })
-        fig.update_traces({'marker_size': s})
-        if c == None:
-            fig.update_traces({'marker_size': s, 'marker_color': ci})
-    elif "liniowy" in child:
-        fig = px.line(tab_data, x=aX, y=aY, title=t, color=c)
-        fig.update_layout({
-            'plot_bgcolor': cb,
-
-        })
-    elif "powierzchniowy" in child:
-        fig = px.area(tab_data, x=aX, y=aY, title=t, color=c)
-        fig.update_layout({
+		fig.update_traces({'marker_size': s})
+		if c == None:
+			fig.update_traces({ 'marker_color': ci})
+	elif "liniowy" in child:
+		fig = px.line(tab_data, x=aX, y=aY, title=t, color=c)
+		fig.update_layout({
             'plot_bgcolor': cb,
         })
-    elif "słupkowy" in child:
-        fig = px.bar(tab_data, x=aX, y=aY, title=t, color=c)
-        fig.update_layout({
+		if c==None:
+			fig.update_traces(line=dict(width=s,color=ci))
+	elif "powierzchniowy" in child:
+		fig = px.area(tab_data, x=aX, y=aY, title=t, color=c)
+		fig.update_layout({
             'plot_bgcolor': cb,
         })
-    if btn[0]['prop_id'].split('.')[0] == 'insert_chart':
-        return html.Div([
-            dcc.Graph(
-                        figure=fig
-                        )
-        ])
+		if c==None:
+			fig.update_traces(fillcolor=ci)
+	elif "słupkowy" in child:
+		fig = px.bar(tab_data, x=aX, y=aY, title=t, color=c)
+		fig.update_layout({
+            'plot_bgcolor': cb,
+        })
+		if c==None:
+			fig.update_traces({'marker_color': ci})
+	if btn[0]['prop_id'].split('.')[0] == 'insert_chart':
+		return html.Div([
+			dcc.Graph(
+				figure=fig
+				)
+		])

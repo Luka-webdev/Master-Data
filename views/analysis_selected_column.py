@@ -26,11 +26,6 @@ def show(rows):
                 options=[{'label': item, 'value': item}
                          for item in tab_data.columns],
                 id='selected_columns'),
-            dbc.InputGroupText('Wybierz typ wartości w kolumnie'),
-            dbc.Select(
-                options=[{'label': key, 'value': value}
-                         for key, value in columns_types.items()],
-                id='type_columns'),
             dbc.Button('Rozpocznij analizę', id='start_analyse')
         ]),
         html.Div(id='result_analyse')
@@ -40,16 +35,15 @@ def show(rows):
 @app.callback(
     Output('result_analyse', 'children'),
     [Input('source_data', 'data')],
-    [Input('type_columns', 'value')],
     [Input('selected_columns', 'value')],
     [Input('start_analyse', 'n_clicks')]
 )
-def show_results(rows, val1, val2, btn):
+def show_results(rows, val2, btn):
     tab_data = pd.DataFrame(rows)
-    tab_data[val2] = tab_data[val2].astype(val1)
+    tab_data[val2] = type_recognize(tab_data[val2], tab_data[val2][0])
     btn = dash.callback_context.triggered
     if btn[0]['prop_id'].split('.')[0] == 'start_analyse':
-        if val1 == 'int64' or val1 == 'float64':
+        if tab_data[val2].dtypes == 'int64' or tab_data[val2].dtypes == 'float64':
             return dbc.Accordion([
                 dbc.AccordionItem([
                     html.P('Najwyższą wartością jest :' +
@@ -75,8 +69,7 @@ def show_results(rows, val1, val2, btn):
                     html.Span(f'{item[0]} - {item[1]} /') for item in tab_data[val2].value_counts().iteritems()
                 ], title="Liczebność poszczególnych wartości"),
             ])
-
-        elif val1 == 'category' or val1 == 'object':
+        elif tab_data[val2].dtypes == 'object' or tab_data[val2].dtypes == 'category':
             return dbc.Accordion([
                 dbc.AccordionItem([
                     html.Span('Wpisz najpierw tekst'),
@@ -100,7 +93,7 @@ def show_results(rows, val1, val2, btn):
                 ], title="Ile wierszy zawiera tekst o podanej długości?"),
                 dbc.AccordionItem([
                     html.Span('Wybierz wzorzec', id='tooltip', style={
-                              "textDecoration": 'underline', 'cursor': 'pointer'}),
+                        "textDecoration": 'underline', 'cursor': 'pointer'}),
                     dbc.Tooltip(
                         'Za pomocą wzorca możesz wyszukiwać w kolumnie tekstowej np. kody pocztowe, numery telefonów itp.', target='tooltip'),
                     dbc.RadioItems(
