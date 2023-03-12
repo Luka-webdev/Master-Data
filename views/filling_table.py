@@ -8,20 +8,6 @@ from views.create_new_tab import *
 from views.functions_variables import *
 
 
-def add_table():
-    return html.Div([
-        dash_table.DataTable(
-        	id='source_data',
-            data=tab.to_dict('records'),
-            columns=[{'id': i, "name": i} for i in columns_name],
-            style_cell={'font-size': '20px', 'width': '210px'},
-            fill_width=False,
-            editable=True,
-            sort_action='native',
-        ),
-    ])
-
-
 def filling_data():
     return html.Div([
         html.H3('Wprowadź dane do tabeli', className='text-primary'),
@@ -51,6 +37,6 @@ def update_table(btn, children):
         tab = tab.append(data, ignore_index=True)
         new_values.clear()
         return [
-            add_table(),
+            add_table(tab,'source_data'),
             {'display': 'none'},
         ]

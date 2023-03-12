@@ -27,7 +27,7 @@ def new_tab():
 @app.callback(
     Output('name_cols', 'children'),
     [Input('num_cols', 'value'),
-     Input('create_headers', 'n_clicks')]
+    Input('create_headers', 'n_clicks')]
 )
 def create_columns(value, btn):
     if value != None:
@@ -54,7 +54,7 @@ def create_table(btn, children):
         for child in children:
             columns_name.append(child['props']['value'])
         return [
-            add_table(),
+            add_table(tab,'source_data'),
             {'display': 'none'},
             {'display': 'none'},
             filling_data()
