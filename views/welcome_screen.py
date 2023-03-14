@@ -77,11 +77,11 @@ def start_project(path):
                             html.Div([
                                 html.Section([
                                     new_tab()
-                                ], id='insert_data', className="col-3 bg-dark h-100 p-3"),
+                                ], id='insert_data', className="col-3 h-100 p-3"),
                                 html.Section([
                                     html.Div(id='table_header'),
                                     html.Div(id='table_content'),
-                                ], id='result_area', className='col-9 bg-info h-100 p-3')
+                                ], id='result_area', className='col-9 h-100 p-3')
                             ], className='row mx-0 create_data')
                         ]
                         ),

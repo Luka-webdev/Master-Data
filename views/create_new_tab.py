@@ -12,22 +12,23 @@ from views.filling_table import *
 def new_tab():
     return html.Div([
         html.Section([
-                    dbc.InputGroup([dbc.InputGroupText('Ile kolumn ma mieć tabela'),
-                                    dcc.Input(type='number', id='num_cols', style={
-                                              'width': '50px', 'font-size': '20px', 'padding': '10px'}),
-                                    ], size='lg'),
+                    html.Div([
+                        dbc.InputGroupText(
+                            'Liczba kolumn w tabeli', className='col-lg-9 col-12 label'),
+                        dcc.Input(type='number', id='num_cols', className='col-lg-3 col-12')], className='row'),
                      dbc.Button('Utwórz pola do wpisania nazw kolumn', id='create_headers',
-                                className='btn btn-success', style={'font-size': '20px'}),
-                     ], id='insert_cols', style={'margin': '20px'}),
-        html.Section(id='name_cols'),
+                                className='btn btn-success my-2'),
+                     ], id='insert_cols'),
+        html.Section(id='name_cols',
+                     className='my-2'),
         html.Section(id='add_rows'),
     ])
 
 
 @app.callback(
     Output('name_cols', 'children'),
-    [Input('num_cols', 'value'),
-    Input('create_headers', 'n_clicks')]
+    [Input('num_cols', 'value')],
+    [Input('create_headers', 'n_clicks')]
 )
 def create_columns(value, btn):
     if value != None:
@@ -35,7 +36,8 @@ def create_columns(value, btn):
         if btn[0]['prop_id'].split('.')[0] == 'create_headers':
             return html.Div([
                 inputs(value, 'input_wrap', 'first'),
-                html.Button('Utwórz tabelę', id='create_tab'),
+                html.Button('Utwórz tabelę', id='create_tab',
+                            className='btn btn-warning my-2'),
             ])
 
 
@@ -54,7 +56,7 @@ def create_table(btn, children):
         for child in children:
             columns_name.append(child['props']['value'])
         return [
-            add_table(tab,'source_data'),
+            add_table(tab, 'source_data'),
             {'display': 'none'},
             {'display': 'none'},
             filling_data()

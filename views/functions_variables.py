@@ -11,18 +11,19 @@ columns_name = []
 tab = pd.DataFrame()
 columns_types = {'Liczba całkowita': 'int64', 'Liczba zmiennoprzecinkowa': 'float64',
                  'Kategoria': 'category', 'Tekst': 'object', 'Data': 'datetime64'}
-                 
-opcje={'zawierającą':'contain','równą':'equal','większą niż':'bigger','większa-równa':'equal_bigger','mniejszą niż':'lower','mniejsza-równa':'lower_equal','wartości zduplikowane':'duplicated','brak wartości':'Nan'}
+
+opcje = {'zawierającą': 'contain', 'równą': 'equal', 'większą niż': 'bigger', 'większa-równa': 'equal_bigger',
+         'mniejszą niż': 'lower', 'mniejsza-równa': 'lower_equal', 'wartości zduplikowane': 'duplicated', 'brak wartości': 'Nan'}
 
 
 def inputs(val1, val2, key):
     if key == 'first':
-        return html.Div([dcc.Input(type='text', id=str(col)) for col in range(val1)], id=val2)
+        return html.Div([dcc.Input(type='text', id=str(col), className='p-1 my-1') for col in range(val1)], id=val2)
     elif key == 'second':
-        return html.Div([dcc.Input(type='text', placeholder=columns_name[col], id=str(col)) for col in range(val1)], id=val2)
+        return html.Div([dcc.Input(type='text', placeholder=columns_name[col], id=str(col), className='p-1 my-1') for col in range(val1)], id=val2)
 
 
-def add_table(tab,idParam):
+def add_table(tab, idParam):
     return html.Div([
         dash_table.DataTable(
             id=idParam,
@@ -35,15 +36,16 @@ def add_table(tab,idParam):
         ),
     ])
 
-def type_recognize(axis,first_value):
-	if first_value.isalpha():
-		axis=axis.astype('category')
-		return axis
-	else:
-		if '.'  in first_value or ',' in first_value:
-			axis=axis.apply(lambda x: x.replace(',','.'))
-			axis=axis.astype('float64')
-			return axis
-		else:
-			axis=axis.astype('int64')
-			return axis
+
+def type_recognize(axis, first_value):
+    if first_value.isalpha():
+        axis = axis.astype('category')
+        return axis
+    else:
+        if '.' in first_value or ',' in first_value:
+            axis = axis.apply(lambda x: x.replace(',', '.'))
+            axis = axis.astype('float64')
+            return axis
+        else:
+            axis = axis.astype('int64')
+            return axis

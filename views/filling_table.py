@@ -12,7 +12,7 @@ def filling_data():
     return html.Div([
         html.H3('Wprowadź dane do tabeli', className='text-primary'),
         inputs(len(columns_name), "new_data", "second"),
-        html.Button('Zatwierdź', id='add_data')
+        html.Button('Zatwierdź', id='add_data', className='btn btn-info my-2')
     ])
 
 
@@ -37,6 +37,6 @@ def update_table(btn, children):
         tab = tab.append(data, ignore_index=True)
         new_values.clear()
         return [
-            add_table(tab,'source_data'),
+            add_table(tab, 'source_data'),
             {'display': 'none'},
         ]

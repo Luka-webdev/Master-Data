@@ -1,0 +1,26 @@
+#insert_cols .label {
+  font-size: 1.5vw;
+}
+#insert_cols .btn,
+#create_tab,
+#add_data {
+  font-size: 1.7vw;
+}
+#input_wrap input,
+#new_data input {
+  font-size: 1.4vw;
+}
+.create_data {
+  background-image: url("images_charts/background.PNG");
+  background-size: cover;
+}
+#insert_data {
+  background: rgba(0, 0, 0, 0.8);
+}
+#result_area {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+#add_rows h3 {
+  font-size: 1.8vw;
+}
