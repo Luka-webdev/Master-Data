@@ -1,24 +1,40 @@
+@import url("https://fonts.googleapis.com/css2?family=Rampart+One&display=swap");
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 #main_wrapper {
-  background-color: #555;
+  background-image: url("images_charts/background.PNG");
+  background-size: cover;
   height: 100vh;
+}
+#welcome_screen h2 {
+  font-size: 3vw;
+}
+#welcome_screen p {
+  font-size: 1.7vw;
+}
+.welcome_option_1 {
+  background-color: #218c74;
+}
+.welcome_option_2 {
+  background-color: #c44569;
 }
 .title {
   font-size: 7vw;
+  color: #fbc531;
+  font-family: "Rampart One", cursive;
 }
 .btn {
   font-size: 4vw;
 }
-#load_data {
-  background-color: darkolivegreen;
-}
+#load_data,
 #new_tab {
-  background-color: darkslategray;
+  font-size: 2vw;
+  padding: 3px;
 }
+
 .file_data,
 .create_data {
   height: 100vh;

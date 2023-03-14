@@ -15,12 +15,44 @@ def make_layout():
             html.Div([
                 html.Section([
                     html.H1(
-                        'Master Data', className='col-12 text-center fw-bold h-50 py-3 title'),
-                    dbc.Button('Wczytaj dane z tabeli', id='load_data', href='load_data',
-                               className='btn col-12 my-3'),
-                    dbc.Button('Stwórz nową tabelę', id='new_tab', href='new_tab',
-                               className='btn col-12')
-                ], className='w-50 h-50'),
+                        'Master Data', className='col-12 text-center fw-bold h-50 py-2 title'),
+                    dbc.Col(
+                        html.Div(
+                            [
+                                html.H2("Wczytaj dane",
+                                        className="display-5 fw-bold"),
+                                html.Hr(className="my-2"),
+                                html.Div([
+                                    html.P(
+                                        "Wczytaj dane z pliku zewnętrznego i przeprowadź ich analizę.", className='col-9'
+                                    ),
+                                    dbc.Button("Dalej", id='load_data', href='load_data',
+                                               color="light", outline=True, className='col-3 h-50'),
+                                ], className='row'),
+
+                            ],
+                            className="h-100  p-3 text-white rounded-3 welcome_option_1",
+                        ),
+
+                    ),
+                    dbc.Col(
+                        html.Div(
+                            [
+                                html.H2("Stwórz tabelę",
+                                        className="display-5 fw-bold"),
+                                html.Hr(className="my-2"),
+                                html.Div([
+                                    html.P(
+                                        "Utwórz tabelę od zera, wprawdzaj dane i je analizuj.", className='col-9'
+                                    ),
+                                    dbc.Button("Dalej", id='new_tab', href='new_tab',
+                                               color="light", outline=True, className='col-3 h-50'),
+                                ], className='row')
+                            ],
+                            className="h-100  p-3 text-white rounded-3 welcome_option_2",
+                        ),
+                    ),
+                ], className='w-75 h-50 row'),
             ], id='welcome_screen', className='position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center'),
             html.Div(id='wrap_project',
                      className='position-absolute top-0 start-0 w-100'),
