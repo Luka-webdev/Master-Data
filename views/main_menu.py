@@ -8,63 +8,65 @@ from views.create_chart import *
 
 offcanvas = html.Div(
     [
-        dbc.Button("Options", id="open-offcanvas",
-                   n_clicks=0, className='position-fixed bottom-0 start-0" fs-4'),
+        dbc.Button("Opcje analizy", id="open-offcanvas",
+                   n_clicks=0, className='position-fixed bottom-0 start-0 btn btn-danger'),
         dbc.Offcanvas(
             html.Div([
                 dbc.Card(
                     dbc.CardBody(
                         [
                             html.H5("Analiza wybranej kolumny",
-                                    className="card-title"),
-                            html.Hr(),
+                                    className="card-title fw-bold m-0"),
+                            html.Hr(className='my-1'),
                             html.Div([
                                 html.P(
                                     "Wykonaj szczegółową analizę dla wybranej kolumny.",
-                                    className="card-text col-9",
+                                    className="card-text col-10 p-2 m-0",
                                 ),
                                 dbc.Button(
-                                    "Dalej", id='analysis_selected_column', color="success", className="col-3"
+                                    [html.I(className="bi bi-arrow-right-square-fill text-success")], id='analysis_selected_column', className=' border-0 col-2 bg-transparent p-0'
                                 )
                             ], className='row')
                         ]
-                    ), className='col-3'
+                    ), className='col-4 p-0 bg-warning bg-gradient menu_card'
                 ),
                 dbc.Card(
                     dbc.CardBody(
                         [
-                            html.H5("Znajdź wiersze", className="card-title"),
-                            html.Hr(),
+                            html.H5("Znajdź wiersze",
+                                    className="card-title fw-bold m-0"),
+                            html.Hr(className='my-1'),
                             html.Div([
                                 html.P(
                                     "Wyszukaj rekordy spełniające określone warunki.",
-                                    className="card-text col-9",
+                                    className="card-text col-10 p-2 m-0",
                                 ),
                                 dbc.Button(
-                                    "Dalej", id='find_rows', color="success", className="col-3"
+                                    [html.I(className="bi bi-arrow-right-square-fill text-success")], id='find_rows', className=' border-0 col-2 bg-transparent p-0'
                                 )
                             ], className='row')
                         ]
-                    ), className='col-3'
+                    ), className='col-3 p-0 bg-warning bg-gradient menu_card'
                 ),
                 dbc.Card(
                     dbc.CardBody(
                         [
-                            html.H5("Stwórz wykres", className="card-title"),
-                            html.Hr(),
+                            html.H5("Stwórz wykres",
+                                    className="card-title fw-bold m-0"),
+                            html.Hr(className='my-1'),
                             html.Div([
                                 html.P(
                                     "Przedstaw swoje dane w postaci graficznej.",
-                                    className="card-text col-9",
+                                    className="card-text col-10 p-2 m-0",
                                 ),
                                 dbc.Button(
-                                    "Dalej", id='create_chart', color="success", className="col-3"
+                                    [html.I(className="bi bi-arrow-right-square-fill text-success")], id='create_chart', className=' border-0 col-2 bg-transparent p-0'
                                 )
                             ], className='row')
                         ]
-                    ), className='col-3'
+                    ), className='col-3 p-0 bg-warning bg-gradient menu_card'
                 ),
-            ], className='row px-2'),
+            ], className='row px-2 d-flex justify-content-around'),
             id="offcanvas",
             is_open=False,
             placement='bottom'

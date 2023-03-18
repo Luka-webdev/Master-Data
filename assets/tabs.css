@@ -1,13 +1,17 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
 #insert_cols .label {
   font-size: 1.5vw;
 }
 #insert_cols .btn,
 #create_tab,
-#add_data {
+#add_data,
+#open-offcanvas,
+.card-body .btn {
   font-size: 1.7vw;
 }
 #input_wrap input,
-#new_data input {
+#new_data input,
+.menu_card p {
   font-size: 1.4vw;
 }
 .create_data {
@@ -21,6 +25,20 @@
   background: rgba(0, 0, 0, 0.6);
 }
 
-#add_rows h3 {
+#add_rows h3,
+.menu_card h5 {
   font-size: 1.8vw;
+}
+.offcanvas-header {
+  display: none;
+}
+
+#data_analysis {
+  height: 100vh;
+  width: 100%;
+  background-image: url("images_charts/background.PNG");
+  background-size: cover;
+}
+.card-body {
+  padding: 1vw;
 }
