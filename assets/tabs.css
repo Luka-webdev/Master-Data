@@ -14,7 +14,8 @@
 .menu_card p {
   font-size: 1.4vw;
 }
-.create_data {
+.create_data,
+#content {
   background-image: url("images_charts/background.PNG");
   background-size: cover;
 }
