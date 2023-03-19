@@ -19,17 +19,19 @@ def analysis_selected_column():
 )
 def show(rows):
     tab_data = pd.DataFrame(rows)
-    return [
-        dbc.InputGroup([
-            dbc.InputGroupText('Wybierz kolumnę do analizy'),
+    return html.Div([
+        html.Div([
+            html.P('Wybierz kolumnę do analizy',
+                   className='text-center text-warning fw-bold'),
             dbc.Select(
                 options=[{'label': item, 'value': item}
                          for item in tab_data.columns],
-                id='selected_columns'),
-            dbc.Button('Rozpocznij analizę', id='start_analyse')
-        ]),
-        html.Div(id='result_analyse')
-    ]
+                id='selected_columns', className='my-3'),
+            dbc.Button('Rozpocznij analizę',
+                       id='start_analyse', className='w-100')
+        ], className='col-3 start_analyse p-2'),
+        html.Div(id='result_analyse', className='col-9 p-2')
+    ], className='row m-0')
 
 
 @app.callback(
@@ -72,23 +74,28 @@ def show_results(rows, val2, btn):
         elif tab_data[val2].dtypes == 'object' or tab_data[val2].dtypes == 'category':
             return dbc.Accordion([
                 dbc.AccordionItem([
-                    html.Span('Wpisz najpierw tekst'),
                     dbc.InputGroup([
-                        dbc.Input(type='text', id='txt'),
-                        dbc.Switch(
-                            id='txt_toggle', label="Wyszukaj wiersze, które nie zawierają podanego teksu.", value=False)
-                    ]),
-                    dbc.Button('Wyszukaj', id='search_txt'),
+                        html.Span('Wpisz najpierw tekst'),
+                        dbc.Input(type='text', id='txt', className='p-1 mx-1'),
+                    ], className='w-50'),
+                    dbc.Switch(
+                        id='txt_toggle', label="Wyszukaj wiersze, które nie zawierają podanego tekstu.", value=False),
+
+                    dbc.Button('Wyszukaj', id='search_txt',
+                               className='bg-warning text-primary'),
                     html.P(id='result_txt')
                 ], title="Ile wierszy zawiera określony tekst?"),
                 dbc.AccordionItem([
-                    html.Span('Wpisz długość tekstu'),
                     dbc.InputGroup([
-                        dbc.Input(type='number', id='len'),
-                        dbc.Switch(
-                            id='len_toggle', label="Wyszukaj wiersze, które zawierają tekst o długości innej niż podana.", value=False)
-                    ]),
-                    dbc.Button('Wyszukaj', id='search_len'),
+                        html.Span('Wpisz długość tekstu'),
+                        dbc.Input(type='number', id='len',
+                                  className='p-1 mx-1'),
+                    ], className='w-50'),
+                    dbc.Switch(
+                        id='len_toggle', label="Wyszukaj wiersze, które zawierają tekst o długości innej niż podana.", value=False),
+
+                    dbc.Button('Wyszukaj', id='search_len',
+                               className='bg-warning text-primary'),
                     html.P(id='result_len')
                 ], title="Ile wierszy zawiera tekst o podanej długości?"),
                 dbc.AccordionItem([
@@ -105,12 +112,13 @@ def show_results(rows, val2, btn):
                         ], id='pattern_option'
                     ),
                     dbc.Input(
-                        placeholder='Tu wpisz wzorzec zgody z wybraną opcją', type='text', id='pattern'),
+                        placeholder='Tu wpisz wzorzec zgody z wybraną opcją', type='text', id='pattern', className='w-50'),
                     dbc.FormText(
                         'Układy cyfry należy wpisywać używając litery "d" np. dd-ddd'),
                     dbc.Switch(
                         id='pattern_toggle', label="Wyszukaj wiersze, które zawierają tekst niedopasowany do podanego wzorca.", value=False),
-                    dbc.Button('Wyszukaj', id='search_pattern'),
+                    dbc.Button('Wyszukaj', id='search_pattern',
+                               className='bg-warning text-primary'),
                     html.P(id='result_pattern')
                 ], title="Ile wierszy zawiera tekst dopasowany do wskazanego wzorca?"),
             ])

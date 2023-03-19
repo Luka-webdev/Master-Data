@@ -1,6 +1,6 @@
 from main import app
 from dash import Dash, html, dcc
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 from views.create_new_tab import *
 from views.main_menu import *
@@ -26,7 +26,9 @@ def make_layout():
                                     html.P(
                                         "Wczytaj dane z pliku zewnętrznego i przeprowadź ich analizę.", className='col-9'
                                     ),
-                                    dbc.Button("Dalej", id='load_data', href='load_data',
+                                    # dbc.Button("Dalej", id='load_data', href='load_data',
+                                    #            color="light", outline=True, className='col-3 h-50'),
+                                    dbc.Button("Dalej", id='open', href='load_data',
                                                color="light", outline=True, className='col-3 h-50'),
                                 ], className='row'),
 
@@ -66,9 +68,21 @@ def make_layout():
 )
 def start_project(path):
     if path == '/load_data':
-        return html.Div([
-
-        ], className='container-fluid w-100 file_data')
+        return dbc.Modal(
+            [
+                dbc.ModalHeader(dbc.ModalTitle("Przykro mi")),
+                dbc.ModalBody("Ta cześć projektu nie jest jeszcze gotowa."),
+                dbc.ModalFooter(
+                    dbc.Button(
+                        "Close", id="close", className="ms-auto", n_clicks=0
+                    )
+                ),
+            ],
+            id="modal",
+            is_open=False,
+        )
+        # return html.Div([
+        # ], className='container-fluid w-100 file_data')
     elif path == '/new_tab':
         return dcc.Tabs([
             dcc.Tab(
@@ -94,3 +108,14 @@ def start_project(path):
                 ]
             )
         ])
+
+
+@app.callback(
+    Output("modal", "is_open"),
+    [Input("open", "n_clicks"), Input("close", "n_clicks")],
+    [State("modal", "is_open")],
+)
+def toggle_modal(n1, n2, is_open):
+    if n1 or n2:
+        return not is_open
+    return is_open

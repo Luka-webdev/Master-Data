@@ -29,7 +29,12 @@
 .btn {
   font-size: 4vw;
 }
-#load_data,
+/* #load_data,
+#new_tab {
+  font-size: 2vw;
+  padding: 3px;
+} */
+#open,
 #new_tab {
   font-size: 2vw;
   padding: 3px;

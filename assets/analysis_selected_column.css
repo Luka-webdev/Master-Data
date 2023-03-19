@@ -1,0 +1,35 @@
+.start_analyse > * {
+  font-size: 1.4vw;
+}
+#result_analyse > *,
+#pattern,
+#txt,
+#len {
+  font-size: 1.4vw;
+}
+#search_pattern,
+#search_len,
+#search_txt,
+#start_analyse {
+  font-size: 1.8vw;
+}
+#result_analyse {
+  background: rgba(0, 0, 0, 0.8);
+}
+.start_analyse {
+  background: rgba(0, 0, 0, 0.6);
+}
+#result_analyse,
+.start_analyse {
+  height: 100vh;
+}
+.accordion-button {
+  padding: 0.6vw;
+  font-size: 1.4vw;
+}
+#result_pattern,
+#result_len,
+#result_txt {
+  margin: 0;
+  font-weight: bold;
+}
