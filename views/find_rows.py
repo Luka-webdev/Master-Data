@@ -19,24 +19,24 @@ def show_table(rows):
     tab_data = pd.DataFrame(rows)
     return html.Section([
         html.Div([
-                        dbc.InputGroup([
-                            dbc.InputGroupText(
-                                "Pokaż wiersze, które w kolumnie"),
-                            dbc.Select(
-                                options=[{'label': item, 'value': item}
-                                         for item in tab_data.columns],
-                                id='selected_columns'),
-                        ]),
-                        dbc.InputGroupText('mają wartość'),
-                        dbc.Select(
-                            options=[{'label': key, 'value': value}
-                                     for key, value in opcje.items()],
-                            id='selected_option'),
-                        dbc.Input(
-                            type='text', id='target', placeholder='Wypełnij w przypadku wyboru opcji większa, równa, mniejsza'),
-                        dbc.Button('Pokaż', color='success', id='show_rows'),
-                        ], className='col-12'),
-        html.Div(id='found_rows', className='col-12')
+
+            html.P("Pokaż wiersze, które w kolumnie",
+                   className='text-center text-warning fw-bold my-2'),
+            dbc.Select(
+                options=[{'label': item, 'value': item}
+                         for item in tab_data.columns],
+                id='selected_columns'),
+            html.P('mają wartość', className='text-center text-warning fw-bold'),
+            dbc.Select(
+                options=[{'label': key, 'value': value}
+                         for key, value in opcje.items()],
+                id='selected_option', className='my-2'),
+            dbc.Input(
+                type='text', id='target', className='my-2'),
+            dbc.Button('Pokaż wyniki', color='success',
+                       id='show_rows', className='my-2'),
+        ], className='col-3 indication_rows'),
+        html.Div(id='found_rows', className='col-9 py-2')
     ], className='row mx-0')
 
 
